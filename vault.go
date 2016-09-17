@@ -23,6 +23,7 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
+	"os"
 	"time"
 
 	"strings"
@@ -412,6 +413,7 @@ func newVaultClient(opts *config) (*api.Client, error) {
 	var token string
 
 	config := api.DefaultConfig()
+	config.ReadEnvironment()
 	config.Address = opts.vaultURL
 
 	config.HttpClient.Transport, err = buildHTTPTransport(opts)
@@ -426,6 +428,9 @@ func newVaultClient(opts *config) (*api.Client, error) {
 	}
 
 	plugin, _ := opts.vaultAuthOptions[VaultAuth]
+	if plugin == "" {
+		plugin = os.Getenv("VAULT_SIDEKICK_AUTH_PLUGIN")
+	}
 	switch plugin {
 	case "userpass":
 		token, err = NewUserPassPlugin(client).Create(opts.vaultAuthOptions)
