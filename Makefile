@@ -3,7 +3,7 @@ NAME=vault-sidekick
 AUTHOR ?= roboll
 REGISTRY ?= quay.io
 HARDWARE=$(shell uname -m)
-VERSION=$(shell awk '/Version =/ { print $$3 }' main.go | sed 's/"//g')
+VERSION := $(shell git describe --tags --abbrev=0 HEAD)
 VETARGS?=-asmdecl -atomic -bool -buildtags -copylocks -methods -nilfunc -printf -rangeloops -shift -structtags -unsafeptr
 
 .PHONY: test authors changelog build docker static release
