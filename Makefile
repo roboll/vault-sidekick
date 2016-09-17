@@ -1,6 +1,6 @@
 
 NAME=vault-sidekick
-AUTHOR ?= ukhomeofficedigital
+AUTHOR ?= roboll
 REGISTRY ?= quay.io
 HARDWARE=$(shell uname -m)
 VERSION=$(shell awk '/Version =/ { print $$3 }' main.go | sed 's/"//g')
@@ -26,7 +26,7 @@ docker: static
 
 push: docker
 	@echo "--> Pushing the image to docker.io"
-	docker push ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION} 
+	docker push ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION}
 
 release: static
 	mkdir -p release
@@ -43,7 +43,6 @@ authors:
 
 deps:
 	@echo "--> Installing build dependencies"
-	go get -d -v ./...
 	go get github.com/stretchr/testify/assert
 
 vet:

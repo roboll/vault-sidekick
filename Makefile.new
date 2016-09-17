@@ -1,0 +1,10 @@
+PREFIX  := quay.io/roboll/vault-sidekick
+VERSION := $(shell git describe --tags --abbrev=0 HEAD)
+
+container:
+	docker build -t $(PREFIX):$(VERSION) .
+.PHONY: container
+
+push: container
+	docker push $(PREFIX):$(VERSION)
+.PHONY: push

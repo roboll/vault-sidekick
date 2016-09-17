@@ -1,6 +1,4 @@
-FROM alpine:3.3
-MAINTAINER Rohith <gambol99@gmail.com>
+FROM scratch
 
-ADD bin/vault-sidekick /vault-sidekick
-
-ENTRYPOINT [ "/vault-sidekick" ]
+ADD vault-sidekick /vault-sidekick
+ENTRYPOINT [ "/vault-sidekick "]
