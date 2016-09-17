@@ -16,7 +16,11 @@ limitations under the License.
 
 package main
 
-import "github.com/hashicorp/vault/api"
+import (
+	"os"
+
+	"github.com/hashicorp/vault/api"
+)
 
 // the userpass authentication plugin
 type authAppRolePlugin struct {
@@ -38,8 +42,8 @@ func NewAppRolePlugin(client *api.Client) AuthInterface {
 // Create a approle plugin with the secret id and role id provided in the file
 func (r authAppRolePlugin) Create(cfg map[string]string) (string, error) {
 	// step: extract the options
-	roleId, _ := cfg["role_id"]
-	secretId, _ := cfg["secret_id"]
+	roleId := os.Getenv("VAULT_SIDEKICK_ROLE_ID")
+	secretId := os.Getenv("VAULT_SIDEKICK_SECRET_ID")
 
 	// step: create the token request
 	request := r.client.NewRequest("POST", "/v1/auth/approle/login")
