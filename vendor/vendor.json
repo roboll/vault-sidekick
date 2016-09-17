@@ -114,22 +114,22 @@
 			"revisionTime": "2016-08-31T18:28:35Z"
 		},
 		{
-			"checksumSHA1": "+kkqRpxzmzY98FX8Dz+LBq8qJJE=",
+			"checksumSHA1": "yM7q67T2ILN+wH+VGgKhdPi8xls=",
 			"path": "github.com/hashicorp/vault/api",
-			"revision": "e8cf40cacbf6c5942cf329de681f6bda6cfd3e80",
-			"revisionTime": "2016-08-31T18:28:35Z"
+			"revision": "c44f1c9817955d4c7cd5822a19fb492e1c2d0c54",
+			"revisionTime": "2016-09-16T21:47:15Z"
 		},
 		{
 			"checksumSHA1": "ft77GtqeZEeCXioGpF/s6DlGm/U=",
 			"path": "github.com/hashicorp/vault/helper/compressutil",
-			"revision": "e8cf40cacbf6c5942cf329de681f6bda6cfd3e80",
-			"revisionTime": "2016-08-31T18:28:35Z"
+			"revision": "c44f1c9817955d4c7cd5822a19fb492e1c2d0c54",
+			"revisionTime": "2016-09-16T21:47:15Z"
 		},
 		{
 			"checksumSHA1": "yUiSTPf0QUuL2r/81sjuytqBoeQ=",
 			"path": "github.com/hashicorp/vault/helper/jsonutil",
-			"revision": "e8cf40cacbf6c5942cf329de681f6bda6cfd3e80",
-			"revisionTime": "2016-08-31T18:28:35Z"
+			"revision": "c44f1c9817955d4c7cd5822a19fb492e1c2d0c54",
+			"revisionTime": "2016-09-16T21:47:15Z"
 		},
 		{
 			"checksumSHA1": "AXacfEchaUqT5RGmPmMXsOWRhv8=",

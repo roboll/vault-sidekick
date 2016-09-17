@@ -16,7 +16,7 @@ test:
     - echo "no deps"
 
   override:
-    - cd "$WORK" && make test
+    - docker run -w /go/src/github.com/roboll/vault-sidekick -v $WORK:/go/src/github.com/roboll/vault-sidekick golang:1.7 make static
 
 # env var must be setup in circleci console
 deployment:
@@ -24,4 +24,4 @@ deployment:
     tag: /v.*/
     commands:
       - docker login -e="." -u="$DOCKER_USER" -p="$DOCKER_PASS" quay.io
-      - make push
+      - cd "$WORK" && make push

@@ -24,7 +24,11 @@ docker: static
 	@echo "--> Building the docker image"
 	docker build -t ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION} .
 
-push: docker
+container:
+	@echo "--> Building the docker image"
+	docker build -t ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION} .
+
+push: container
 	@echo "--> Pushing the image to docker.io"
 	docker push ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION}
 
