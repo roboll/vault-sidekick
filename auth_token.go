@@ -18,6 +18,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"os"
 
 	"github.com/hashicorp/vault/api"
@@ -51,6 +52,13 @@ func (r authTokenPlugin) Create(cfg map[string]string) (string, error) {
 		}
 
 		return token, nil
+	}
+
+	if tokenfile := os.Getenv("VAULT_SIDEKICK_TOKEN_FILE"); tokenfile != "" {
+		token, err := ioutil.ReadFile(tokenfile)
+		if err != nil {
+			return string(token), nil
+		}
 	}
 
 	// step: check the VAULT_TOKEN
