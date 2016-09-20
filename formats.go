@@ -64,6 +64,24 @@ func writeEnvFile(filename string, data map[string]interface{}) error {
 	return writeFile(filename, buf.Bytes())
 }
 
+func writeAwsEnvFile(filename string, data map[string]interface{}) error {
+	var buf bytes.Buffer
+	for key, val := range data {
+		switch key {
+		case "access_key":
+			buf.WriteString(fmt.Sprintf("AWS_ACCESS_KEY_ID=%v\n", val))
+		case "secret_key":
+			buf.WriteString(fmt.Sprintf("AWS_SECRET_ACCESS_KEY=%v\n", val))
+		case "session_token":
+			buf.WriteString(fmt.Sprintf("AWS_SESSION_TOKEN=%v\n", val))
+		default:
+			buf.WriteString(fmt.Sprintf("%s=%v\n", strings.ToUpper(key), val))
+		}
+	}
+
+	return writeFile(filename, buf.Bytes())
+}
+
 func writeCertificateFile(filename string, data map[string]interface{}) error {
 	files := map[string]string{
 		"certificate": "crt",

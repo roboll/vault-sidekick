@@ -27,10 +27,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/golang/glog"
-	"gopkg.in/yaml.v2"
 	"os/exec"
 	"path/filepath"
+
+	"github.com/golang/glog"
+	"gopkg.in/yaml.v2"
 )
 
 func init() {
@@ -178,6 +179,8 @@ func processResource(rn *VaultResource, data map[string]interface{}) (err error)
 		err = writeCSVFile(filename, data)
 	case "env":
 		err = writeEnvFile(filename, data)
+	case "awsenv":
+		err = writeAwsEnvFile(filename, data)
 	case "cert":
 		err = writeCertificateFile(filename, data)
 	case "txt":
