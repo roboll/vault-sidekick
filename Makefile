@@ -20,11 +20,7 @@ static:
 	mkdir -p bin
 	CGO_ENABLED=0 GOOS=linux go build -a -tags netgo -ldflags '-w' -o bin/${NAME}
 
-docker: static
-	@echo "--> Building the docker image"
-	docker build -t ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION} .
-
-container:
+container: static
 	@echo "--> Building the docker image"
 	docker build -t ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION} .
 

@@ -16,6 +16,7 @@ test:
     - echo "no deps"
 
   override:
+    - rm -f bin
     - docker run -w /go/src/github.com/roboll/vault-sidekick -v $WORK:/go/src/github.com/roboll/vault-sidekick golang:1.7 make static
 
 # env var must be setup in circleci console

@@ -73,7 +73,9 @@ func writeAwsEnvFile(filename string, data map[string]interface{}) error {
 		case "secret_key":
 			buf.WriteString(fmt.Sprintf("AWS_SECRET_ACCESS_KEY=%v\n", val))
 		case "session_token":
-			buf.WriteString(fmt.Sprintf("AWS_SESSION_TOKEN=%v\n", val))
+			if val != nil {
+				buf.WriteString(fmt.Sprintf("AWS_SESSION_TOKEN=%v\n", val))
+			}
 		default:
 			buf.WriteString(fmt.Sprintf("%s=%v\n", strings.ToUpper(key), val))
 		}
