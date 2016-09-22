@@ -429,7 +429,10 @@ func newVaultClient(opts *config) (*api.Client, error) {
 
 	plugin, _ := opts.vaultAuthOptions[VaultAuth]
 	if plugin == "" {
-		plugin = os.Getenv("VAULT_SIDEKICK_AUTH_PLUGIN")
+		plugin = os.Getenv("VAULT_SIDEKICK_AUTH_METHOD")
+	}
+	if plugin == "" {
+		plugin = "token"
 	}
 	switch plugin {
 	case "userpass":
