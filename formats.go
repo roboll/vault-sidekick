@@ -55,29 +55,37 @@ func writeYAMLFile(filename string, data map[string]interface{}) error {
 	return writeFile(filename, content)
 }
 
-func writeEnvFile(filename string, data map[string]interface{}) error {
+func writeEnvFile(filename string, data map[string]interface{}, export bool) error {
 	var buf bytes.Buffer
+	template := "%s=%v\n"
+	if export {
+		template = "export " + template
+	}
 	for key, val := range data {
-		buf.WriteString(fmt.Sprintf("%s=%v\n", strings.ToUpper(key), val))
+		buf.WriteString(fmt.Sprintf(template, strings.ToUpper(key), val))
 	}
 
 	return writeFile(filename, buf.Bytes())
 }
 
-func writeAwsEnvFile(filename string, data map[string]interface{}) error {
+func writeAwsEnvFile(filename string, data map[string]interface{}, export bool) error {
 	var buf bytes.Buffer
+	prefix := ""
+	if export {
+		prefix = "export "
+	}
 	for key, val := range data {
 		switch key {
 		case "access_key":
-			buf.WriteString(fmt.Sprintf("AWS_ACCESS_KEY_ID=%v\n", val))
+			buf.WriteString(fmt.Sprintf(prefix+"AWS_ACCESS_KEY_ID=%v\n", val))
 		case "secret_key":
-			buf.WriteString(fmt.Sprintf("AWS_SECRET_ACCESS_KEY=%v\n", val))
-		case "session_token":
-			if val != nil {
-				buf.WriteString(fmt.Sprintf("AWS_SESSION_TOKEN=%v\n", val))
+			buf.WriteString(fmt.Sprintf(prefix+"AWS_SECRET_ACCESS_KEY=%v\n", val))
+		case "security_token":
+			if val != nil && val != "<nil>" {
+				buf.WriteString(fmt.Sprintf(prefix+"AWS_SESSION_TOKEN=%v\n", val))
 			}
 		default:
-			buf.WriteString(fmt.Sprintf("%s=%v\n", strings.ToUpper(key), val))
+			buf.WriteString(fmt.Sprintf(prefix+"%s=%v\n", strings.ToUpper(key), val))
 		}
 	}
 

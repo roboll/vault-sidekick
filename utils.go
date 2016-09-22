@@ -165,6 +165,7 @@ func processResource(rn *VaultResource, data map[string]interface{}) (err error)
 	if !strings.HasPrefix(filename, "/") {
 		filename = fmt.Sprintf("%s/%s", options.outputDir, filepath.Base(filename))
 	}
+	export := rn.options["export"] == "true"
 	// step: format and write the file
 	switch rn.format {
 	case "yaml":
@@ -178,9 +179,9 @@ func processResource(rn *VaultResource, data map[string]interface{}) (err error)
 	case "csv":
 		err = writeCSVFile(filename, data)
 	case "env":
-		err = writeEnvFile(filename, data)
+		err = writeEnvFile(filename, data, export)
 	case "awsenv":
-		err = writeAwsEnvFile(filename, data)
+		err = writeAwsEnvFile(filename, data, export)
 	case "cert":
 		err = writeCertificateFile(filename, data)
 	case "txt":
