@@ -3,7 +3,7 @@ NAME=vault-sidekick
 AUTHOR ?= roboll
 REGISTRY ?= quay.io
 HARDWARE=$(shell uname -m)
-VERSION := test
+VERSION := $(shell git describe --tags --abbrev=0 HEAD)
 VETARGS?=-asmdecl -atomic -bool -buildtags -copylocks -methods -nilfunc -printf -rangeloops -shift -structtags -unsafeptr
 
 .PHONY: test authors changelog build docker static release
@@ -20,7 +20,10 @@ static:
 	mkdir -p bin
 	CGO_ENABLED=0 GOOS=linux go build -a -tags netgo -ldflags '-w' -o bin/${NAME}
 
-container: static
+docker-static:
+	docker run -w /go/src/github.com/roboll/vault-sidekick -v $(PWD):/go/src/github.com/roboll/vault-sidekick golang:1.7 make static
+
+container: docker-static
 	@echo "--> Building the docker image"
 	docker build -t ${REGISTRY}/${AUTHOR}/${NAME}:${VERSION} .
 
