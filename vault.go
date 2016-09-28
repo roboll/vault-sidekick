@@ -482,7 +482,9 @@ func buildHTTPTransport(opts *config) (*http.Transport, error) {
 		caCertPool := x509.NewCertPool()
 		caCertPool.AppendCertsFromPEM(caCert)
 		// step: add the ca to the root
-		transport.TLSClientConfig.RootCAs = caCertPool
+		transport.TLSClientConfig = &tls.Config{
+			RootCAs: caCertPool,
+		}
 	}
 
 	return transport, nil
