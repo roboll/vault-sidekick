@@ -481,6 +481,35 @@ func newVaultClient(opts *config) (*api.Client, error) {
 	// step: set the token for the client
 	client.SetToken(token)
 
+	if opts.vaultRenewToken {
+		tokeninfo, err := client.Auth().Token().LookupSelf()
+		if err != nil {
+			return nil, fmt.Errorf("failed to lookup token info: %s", err)
+		}
+
+		renewPeriod, err := tokeninfo.TokenTTL()
+		if err != nil {
+			return nil, fmt.Errorf("failed to lookup token ttl: %s", err)
+		}
+		go func() {
+			for {
+				glog.Infof("scheduling token renew in %s", renewPeriod)
+				<-time.After(renewPeriod)
+				newtokeninfo, err := client.Auth().Token().RenewSelf(0)
+				if err != nil {
+					renewPeriod = renewPeriod / 2
+					glog.Warningf("error: failed to renew token, rescheduling in %s: %s", err, renewPeriod)
+				}
+				tokenttl, err := newtokeninfo.TokenTTL()
+				if err != nil {
+					glog.Warningf("error: failed to get new token ttl, using old value %s: %s", err, renewPeriod)
+				} else {
+					renewPeriod = tokenttl * 4 / 5
+				}
+			}
+		}()
+	}
+
 	return client, nil
 }
 
