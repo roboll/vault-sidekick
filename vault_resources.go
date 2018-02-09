@@ -36,8 +36,12 @@ type VaultResources struct {
 func (r *VaultResources) Set(value string) error {
 	rn := defaultVaultResource()
 
-	// step: split on the ':'
-	items := strings.Split(os.ExpandEnv(value), ":")
+	// step: split on the separator, default ':'
+	sep := os.Getenv("VAULT_SIDEKICK_SEPARATOR")
+	if sep == "" {
+		sep = ":"
+	}
+	items := strings.Split(os.ExpandEnv(value), sep)
 	if len(items) < 2 {
 		return fmt.Errorf("invalid resource, must have at least two sections TYPE:PATH")
 	}
